@@ -1,0 +1,14 @@
+---
+- hosts: all
+  tasks:
+  - name: Install tools
+    vars:
+      docker_package_name: "docker.io"
+    package: name={{item}} state=latest
+    with_items:
+      - neovim
+      - tmux
+      - gcc
+      - git
+      - "{{docker_package_name}}"
+    become: true
