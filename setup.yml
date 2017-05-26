@@ -1,14 +1,74 @@
 ---
 - hosts: all
+  vars:
+    docker_package_name: false
   tasks:
   - name: Install tools
-    vars:
-      docker_package_name: "docker.io"
     package: name={{item}} state=latest
     with_items:
       - neovim
       - tmux
       - gcc
       - git
-      - "{{docker_package_name}}"
     become: true
+
+  - name: Set docker package name on Ubuntu
+    set_fact:
+      docker_package_name: "docker.io"
+    when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int >= 16
+
+  - name: Set docker package name on Fedora
+    set_fact:
+      docker_package_name: "docker"
+    when: ansible_distribution == 'Fedora' and ansible_lsb.major_release|int >= 23 
+
+  - name: Install Docker engine on Linux
+    package: name={{docker_package_name}} state=latest
+    when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
+
+  - name: Setup Vim Plugin Manager - Vundle
+    git:
+      repo: 'https://github.com/VundleVim/Vundle.vim.git'
+      dest: '~/.vim/bundle/Vundle.vim'
+
+  - name: Create nvim config directory
+    file:
+      path: '~/.config/nvim'
+      state: directory
+      mode: 0755
+
+  - name: Copy nvim init file
+    copy:
+      src: "./config_files/init.vim"
+      dest: "~/.config/nvim/init.vim"
+
+  - name: Install Vim plugins
+    command: vim +PluginInstall +qall
+
+  - name: Setup tmux Plugin Manager - tpm
+    git:
+      repo: 'https://github.com/tmux-plugins/tpm'
+      dest: '~/.tmux/plugins/tpm'
+
+  - name: Copy tmux conf
+    copy:
+      src: "./config_files/tmux.conf"
+      dest: "~/.tmux.conf"
+
+  - name: Install tmux plugins
+    command: "~/.tmux/plugins/tpm/bin/install_plugins"
+
+  - name: Setup bash git prompt
+    git:
+      repo: 'https://github.com/magicmonty/bash-git-prompt.git'
+      dest: '~/.bash-git-prompt'
+
+  - name: Copy bashrc
+    copy:
+      src: "./config_files/bashrc"
+      dest: "~/.bashrc"
+
+  - name: Copy gitconfig
+    copy:
+      src: "./config_files/gitconfig"
+      dest: "~/.gitconfig"
