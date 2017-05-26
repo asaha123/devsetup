@@ -46,6 +46,7 @@ Plugin 'benmills/vimux'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jnurmine/Zenburn'
 Plugin 'mhinz/vim-grepper'
+Plugin 'chase/vim-ansible-yaml'
 
 
 
