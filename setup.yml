@@ -3,7 +3,7 @@
   vars:
     docker_package_name: false
   tasks:
-  - name: Install tools
+  - name: Install tools on Linux
     package: name={{item}} state=latest
     with_items:
       - neovim
@@ -11,6 +11,17 @@
       - gcc
       - git
     become: true
+    when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
+
+  - name: Install tools on OS X
+    package: name={{item}} state=latest
+    with_items:
+      - neovim
+      - tmux
+      - gcc
+      - git
+    become: true
+    when: ansible_os_family == 'darwin'
 
   - name: Set docker package name on Ubuntu
     set_fact:
@@ -44,6 +55,17 @@
 
   - name: Install Vim plugins
     command: vim +PluginInstall +qall
+
+  - name: Create nvim config/colors directory
+    file:
+      path: '~/.config/nvim/colors'
+      state: directory
+      mode: 0755
+
+  - name: Get Zenburn for vim
+    get_url:
+      url: https://raw.githubusercontent.com/jnurmine/Zenburn/master/colors/zenburn.vim
+      dest: '~/.config/nvim/colors/zenburn.vim'
 
   - name: Setup tmux Plugin Manager - tpm
     git:
