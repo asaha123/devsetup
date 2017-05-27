@@ -36,6 +36,12 @@
     package: name={{docker_package_name}} state=latest
     when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
 
+  - name: Create .vim directory
+    file:
+      path: '~/.vim'
+      state: directory
+      mode: 0755
+
   - name: Setup Vim Plugin Manager - Vundle
     git:
       repo: 'https://github.com/VundleVim/Vundle.vim.git'
@@ -52,6 +58,24 @@
       src: "./config_files/init.vim"
       dest: "~/.config/nvim/init.vim"
 
+  - name: Create nvim backup directory
+    file:
+      path: '~/.vim/backup_files'
+      state: directory
+      mode: 0755
+
+  - name: Create nvim swap directory
+    file:
+      path: '~/.vim/swap_files'
+      state: directory
+      mode: 0755
+
+  - name: Create nvim undo files directory
+    file:
+      path: '~/.vim/undo_files'
+      state: directory
+      mode: 0755
+
   - name: Install Vim plugins
     command: vim +PluginInstall +qall
 
@@ -65,6 +89,12 @@
     get_url:
       url: https://raw.githubusercontent.com/jnurmine/Zenburn/master/colors/zenburn.vim
       dest: '~/.config/nvim/colors/zenburn.vim'
+
+  - name: Create .tmux directory
+    file:
+      path: '~/.tmux'
+      state: directory
+      mode: 0755
 
   - name: Setup tmux Plugin Manager - tpm
     git:
