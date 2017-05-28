@@ -14,13 +14,12 @@
     when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
 
   - name: Install tools on OS X
-    package: name={{item}} state=latest
+    homebrew: name={{item}} state=latest update_homebrew=yes
     with_items:
       - neovim
       - tmux
-      - gcc
       - git
-    when: ansible_os_family == 'darwin'
+    when: ansible_os_family == 'Darwin'
 
   - name: Set docker package name on Ubuntu
     set_fact:
