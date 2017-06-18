@@ -2,6 +2,10 @@
 - hosts: all
   vars:
     docker_package_name: false
+    go_binary: false
+    go_tarball: "go-bin.tar.gz"
+    go_version_target_linux: "go version go1.8.1 linux/amd64"
+    go_version_target_osx: "go version go1.8.1 darwin/amd64"
   tasks:
   - name: Install tools on Linux
     package: name={{item}} state=latest
@@ -34,6 +38,42 @@
   - name: Install Docker engine on Linux
     package: name={{docker_package_name}} state=latest
     when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
+
+  - name: Set golang binary download filename for Linux 
+    set_fact:
+        go_binary: "go1.8.3.linux-amd64"
+    when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
+
+  - name: Set golang binary download filename for OS X
+    set_fact:
+        go_binary: "go1.8.3.darwin-amd64"
+    when: ansible_os_family == 'Darwin'
+
+  - name: Download golang binary tarball
+    get_url:
+      url: "https://storage.googleapis.com/golang/{{go_binary}}.tar.gz"
+      dest: /usr/local/{{go_tarball}}
+    become: true
+
+  - name: Register the current Go version
+    command: /usr/local/go/bin/go version
+    ignore_errors: yes
+    register: go_version
+    changed_when: false
+
+  - name: Remove old installation of Go
+    file:
+      path: /usr/local/go
+      state: absent
+    when: go_version|failed or go_version.stdout != go_version_target_osx or go_version.stdout != go_version_target_linux
+    become: true
+
+  - name: Extract the Go tarball if Go is not yet installed or not the desired version
+    command: tar -zxvf {{ go_tarball|quote }}
+    args:
+       chdir: /usr/local
+    when: go_version|failed or go_version.stdout != go_version_target_linux or go_version.stdout != go_version_target_osx
+    become: true
 
   - name: Create .vim directory
     file:
