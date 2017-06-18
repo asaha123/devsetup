@@ -11,14 +11,26 @@ Run it:
 
 On Linux
 
+`sudo` is needed for:
+
+- Package management
+- Setting up golang
+
 ```
 $ ansible-playbook -i "localhost,"  -c local setup.yml --ask-sudo-pass
 ```
 
 On OS X
 
-```
-$ ansible-playbook -i "localhost,"  -c local setup.yml
-```
+`sudo` is needed for:
+
+- Setting up golang
 
 
+```
+$ ansible-playbook -i "localhost,"  -c local setup.yml --ask-sudo-pass
+```
+
+## Giant Shoulders
+
+- https://github.com/jlund/ansible-go
