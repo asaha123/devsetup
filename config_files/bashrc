@@ -42,7 +42,7 @@ if ! shopt -oq posix; then
 fi
 
 # Custom look up paths
-export PATH=$PATH:/usr/local/go/bin:~/go/bin
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 
 # Custom aliases
 alias arc='docker run -v `pwd`:/code -ti amitsaha/arc'

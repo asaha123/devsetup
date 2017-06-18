@@ -118,6 +118,11 @@
       src: "./config_files/bashrc"
       dest: "~/.bashrc"
 
+  - name: Copy bash_profile
+    copy:
+      src: "./config_files/bash_profile"
+      dest: "~/.bash_profile"
+
   - name: Copy gitconfig
     copy:
       src: "./config_files/gitconfig"
