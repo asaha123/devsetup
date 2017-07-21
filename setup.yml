@@ -26,6 +26,10 @@
       - git
     when: ansible_os_family == 'Darwin'
 
+  - name: Install neovim-python3 package from pip
+    pip: name=neovim executable=pip3
+
+
   - name: Set docker package name on Ubuntu
     set_fact:
       docker_package_name: "docker.io"
@@ -117,7 +121,7 @@
       mode: 0755
 
   - name: Install Vim plugins
-    command: vim +PluginInstall +qall
+    command: nvim +PluginInstall +qall
 
   - name: Create nvim config/colors directory
     file:
