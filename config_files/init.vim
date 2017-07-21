@@ -29,7 +29,6 @@ call vundle#begin()
 "
 " " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdTree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'nvie/vim-flake8'
@@ -51,7 +50,6 @@ Plugin 'fatih/vim-go'
 Plugin 'w0rp/ale'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'Shougo/deoplete.nvim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Shougo/deoplete.nvim'
 Plugin 'Shougo/neosnippet'

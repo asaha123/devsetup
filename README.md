@@ -30,6 +30,10 @@ On OS X
 ```
 $ ansible-playbook -i "localhost,"  -c local setup.yml --ask-sudo-pass
 ```
+## Notes
+
+- Display ansible facts:  ansible all -i "localhost," -c local  -m setup
+
 
 ## Giant Shoulders
 

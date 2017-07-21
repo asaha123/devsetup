@@ -11,11 +11,12 @@
     package: name={{item}} state=latest
     with_items:
       - neovim
+      - python3-neovim
       - tmux
       - gcc
       - git
     become: true
-    when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
+    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
 
   - name: Install tools on OS X
     homebrew: name={{item}} state=latest update_homebrew=yes
@@ -42,7 +43,7 @@
   - name: Set golang binary download filename for Linux 
     set_fact:
         go_binary: "go1.8.3.linux-amd64"
-    when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
+    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
 
   - name: Set golang binary download filename for OS X
     set_fact:
