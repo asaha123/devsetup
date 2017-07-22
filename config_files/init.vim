@@ -104,7 +104,8 @@ set directory=~/.vim/swap_files//
 set undodir=~/.vim/undo_files//
 
 " color scheme
-colorscheme zenburn
+"colorscheme zenburn
+colorscheme molokai
 
 " Golang specific
 " Copied from https://hackernoon.com/my-neovim-setup-for-go-7f7b6e805876
