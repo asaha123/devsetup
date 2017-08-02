@@ -49,6 +49,7 @@ alias arc='docker run -v `pwd`:/code -ti amitsaha/arc'
 alias fli='~/.virtualenvs/fli/bin/fli'
 alias osxlock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 alias vim='nvim'
+. ~/.bashrc_aliases
 
 # https://github.com/magicmonty/bash-git-prompt
 GIT_PROMPT_ONLY_IN_REPO=1

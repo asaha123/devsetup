@@ -1,0 +1,4 @@
+alias arc-python='docker run -v `pwd`:/code -ti asaha/arc:python'
+alias arc-terraform='docker run -v `pwd`:/code -ti asaha/arc:terraform'
+alias arc-puppet='docker run -v `pwd`:/code -ti asaha/arc:puppet'
+alias arc-gaf='docker run -v `pwd`:/code -ti asaha/arc:gaf'

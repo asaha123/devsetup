@@ -12,6 +12,7 @@
     with_items:
       - neovim
       - python3-neovim
+      - python3-pip
       - tmux
       - gcc
       - git
@@ -24,6 +25,7 @@
       - neovim
       - tmux
       - git
+      - pip3
     when: ansible_os_family == 'Darwin'
 
   - name: Install neovim-python3 package from pip
@@ -135,7 +137,7 @@
       dest: '~/.config/nvim/colors/zenburn.vim'
   - name: Get molokai for vim
     get_url:
-      url: Zenburn://raw.githubusercontent.com/fatih/molokai/master/colors/molokai.vim
+      url: https://raw.githubusercontent.com/fatih/molokai/master/colors/molokai.vim
       dest: '~/.config/nvim/colors/molokai.vim'
 
   - name: Create .tmux directory
@@ -166,6 +168,11 @@
     copy:
       src: "./config_files/bashrc"
       dest: "~/.bashrc"
+
+  - name: Copy bashrc aliases
+    copy:
+      src: "./config_files/bashrc_aliases"
+      dest: "~/.bashrc_aliases"
 
   - name: Copy bash_profile
     copy:
