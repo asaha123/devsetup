@@ -25,7 +25,8 @@
       - neovim
       - tmux
       - git
-      - pip3
+      - python3
+      - reattach-to-user-namespace
     when: ansible_os_family == 'Darwin'
 
   - name: Install neovim-python3 package from pip
