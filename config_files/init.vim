@@ -54,7 +54,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Shougo/deoplete.nvim'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
-
+Plugin 'uarun/vim-protobuf'
 
 call vundle#end()            " required
 
