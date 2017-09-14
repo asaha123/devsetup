@@ -83,6 +83,30 @@
     when: go_version|failed or go_version.stdout != go_version_target_linux or go_version.stdout != go_version_target_osx
     become: true
 
+  - name: Create $HOME/.bin directory
+    file:
+      path: '~/.bin'
+      state: directory
+      mode: 0755
+
+  - name: Clone fzf
+    git:
+      repo: 'https://github.com/junegunn/fzf.git'
+      dest: '~/.fzf'
+      depth: 1
+
+  - name: Install fzf
+    copy: 
+      src: ~/.fzf/bin/fzf
+      dest: ~/.bin/fzf
+      mode: 0755
+  
+  - name: Install fzf-tmux
+    copy: 
+      src: ~/.fzf/bin/fzf-tmux
+      dest: ~/.bin/fzf-tmux
+      mode: 0755
+  
   - name: Create .vim directory
     file:
       path: '~/.vim'
@@ -169,11 +193,6 @@
     copy:
       src: "./config_files/bashrc"
       dest: "~/.bashrc"
-
-  - name: Copy bashrc aliases
-    copy:
-      src: "./config_files/bashrc_aliases"
-      dest: "~/.bashrc_aliases"
 
   - name: Copy bash_profile
     copy:
