@@ -27,6 +27,7 @@
       - git
       - python3
       - reattach-to-user-namespace
+      - fzf
     when: ansible_os_family == 'Darwin'
 
   - name: Install neovim-python3 package from pip
@@ -94,19 +95,22 @@
       repo: 'https://github.com/junegunn/fzf.git'
       dest: '~/.fzf'
       depth: 1
+    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
 
   - name: Install fzf
     copy: 
       src: ~/.fzf/bin/fzf
       dest: ~/.bin/fzf
       mode: 0755
+    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
   
   - name: Install fzf-tmux
     copy: 
       src: ~/.fzf/bin/fzf-tmux
       dest: ~/.bin/fzf-tmux
       mode: 0755
-  
+    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
+
   - name: Create .vim directory
     file:
       path: '~/.vim'
