@@ -55,6 +55,7 @@ Plugin 'Shougo/deoplete.nvim'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
 Plugin 'uarun/vim-protobuf'
+Plugin 'hashivim/vim-terraform'
 
 call vundle#end()            " required
 
@@ -146,3 +147,4 @@ function! Multiple_cursors_after()
     let b:deoplete_disable_auto_complete = 0
 endfunction
 let g:go_snippet_engine = "neosnippet"
+
