@@ -6,6 +6,8 @@
     go_tarball: "go-bin.tar.gz"
     go_version_target_linux: "go version go1.8.1 linux/amd64"
     go_version_target_osx: "go version go1.8.1 darwin/amd64"
+    terraform_version: "0.11.1"
+    terraform_download_url: "https://releases.hashicorp.com/terraform"
   tasks:
   - name: Install tools on Linux
     package: name={{item}} state=latest
@@ -84,11 +86,32 @@
     when: go_version|failed or go_version.stdout != go_version_target_linux or go_version.stdout != go_version_target_osx
     become: true
 
+  - name: Set terraform binary download filename for OS X
+    set_fact:
+        terraform_binary: "terraform_{{terraform_version}}_darwin_amd64.zip" 
+    when: ansible_os_family == 'Darwin'
+
+  - name: Set terraform binary download filename for Linux
+    set_fact:
+        terraform_binary: "terraform_{{terraform_version}}_linux_amd64.zip" 
+    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
+
   - name: Create $HOME/.bin directory
     file:
       path: '~/.bin'
       state: directory
       mode: 0755
+
+  - name: Remove ~/.bin/terraform if exists
+    file:
+      path: '~/.bin/terraform'
+      state: absent
+
+  - name: Download terraform binary tarball into ~/.bin
+    unarchive:
+      src: "{{terraform_download_url}}/{{terraform_version}}/{{terraform_binary}}"
+      dest: ~/.bin/
+      remote_src: true
 
   - name: Clone fzf
     git:

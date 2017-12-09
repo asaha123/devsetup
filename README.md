@@ -30,11 +30,18 @@ On OS X
 ```
 $ ansible-playbook -i "localhost,"  -c local setup.yml --ask-sudo-pass
 ```
+
+## Terraform version
+
+```
+$ ./setup.sh --extra-vars "terraform_version=<version string>"
+```
+
 ## Notes
 
 - Display ansible facts:  ansible all -i "localhost," -c local  -m setup
 
 
-## Giant Shoulders
+## Acknowledgements
 
 - https://github.com/jlund/ansible-go
