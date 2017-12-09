@@ -74,7 +74,7 @@ imap jk <Esc>
 " vv to generate new vertical split
 nnoremap <silent> vv <C-w>v
 " Prompt for a command to run
-map <Leader>vp :VimuxPromptCommand<CR>
+map <Leader>vp :VimuxPromptCommandtCR>
 
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
@@ -148,3 +148,7 @@ function! Multiple_cursors_after()
 endfunction
 let g:go_snippet_engine = "neosnippet"
 
+
+" search and center to the screen
+nnoremap n nzz
+nnoremap N Nzz
