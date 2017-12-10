@@ -35,6 +35,8 @@
   - name: Install neovim-python3 package from pip
     pip: name=neovim executable=pip3
 
+  - name: Install aws CLI package from pip
+    pip: name=awscli executable=pip3
 
   - name: Set docker package name on Ubuntu
     set_fact:
