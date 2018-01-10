@@ -67,11 +67,35 @@
   - name: Set docker package name on Fedora
     set_fact:
       docker_package_name: "docker"
-    when: ansible_distribution == 'Fedora' and ansible_distribution_version|int >= 23 
+    when: ansible_distribution == 'Fedora' and ansible_distribution_major_version|int >= 23 
 
   - name: Install Docker engine on Linux
     package: name={{docker_package_name}} state=latest
-    when: ansible_os_family == 'Fedora' or ansible_os_family == 'Ubuntu'
+    when: ansible_os_family == 'RedHat' or ansible_os_family == 'Ubuntu'
+    become: true
+
+  - name: Create docker group
+    group:
+      name: docker
+      state: present
+    when: ansible_system == 'Linux'
+    become: true
+
+  - name: Add {{ansible_user_id}} to docker group
+    user: 
+      name: '{{ ansible_user_id }}'
+      groups: docker
+      append: yes
+    when: ansible_system == 'Linux'
+    become: true
+
+  - name: Enable and Start docker service
+    service:
+      name: docker
+      enabled: yes
+      state: started
+    when: ansible_system == 'Linux'
+    become: true
 
   - name: Set golang binary download filename for Linux 
     set_fact:
