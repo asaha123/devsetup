@@ -18,8 +18,23 @@
       - tmux
       - gcc
       - git
+      - fzf
     become: true
     when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
+
+  - name: Install liselinux-python on Fedora
+    package: name={{item}} state=latest
+    with_items:
+      - libselinux-python
+    become: true
+    when: ansible_distribution == 'Fedora'
+
+  - name: Set SELinux to permissive
+    selinux:
+      policy: targeted
+      state: permissive
+    become: true
+    when: ansible_distribution == 'Fedora'
 
   - name: Install tools on OS X
     homebrew: name={{item}} state=latest update_homebrew=yes
@@ -33,10 +48,16 @@
     when: ansible_os_family == 'Darwin'
 
   - name: Install neovim-python3 package from pip
-    pip: name=neovim executable=pip3
+    pip: 
+      name: neovim
+      executable: pip3
+      extra_args: --user
 
   - name: Install aws CLI package from pip
-    pip: name=awscli executable=pip3
+    pip: 
+      name: awscli
+      executable: pip3
+      extra_args: --user
 
   - name: Set docker package name on Ubuntu
     set_fact:
@@ -46,7 +67,7 @@
   - name: Set docker package name on Fedora
     set_fact:
       docker_package_name: "docker"
-    when: ansible_distribution == 'Fedora' and ansible_lsb.major_release|int >= 23 
+    when: ansible_distribution == 'Fedora' and ansible_distribution_version|int >= 23 
 
   - name: Install Docker engine on Linux
     package: name={{docker_package_name}} state=latest
@@ -114,27 +135,6 @@
       src: "{{terraform_download_url}}/{{terraform_version}}/{{terraform_binary}}"
       dest: ~/.bin/
       remote_src: true
-
-  - name: Clone fzf
-    git:
-      repo: 'https://github.com/junegunn/fzf.git'
-      dest: '~/.fzf'
-      depth: 1
-    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
-
-  - name: Install fzf
-    copy: 
-      src: ~/.fzf/bin/fzf
-      dest: ~/.bin/fzf
-      mode: 0755
-    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
-  
-  - name: Install fzf-tmux
-    copy: 
-      src: ~/.fzf/bin/fzf-tmux
-      dest: ~/.bin/fzf-tmux
-      mode: 0755
-    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
 
   - name: Create .vim directory
     file:
