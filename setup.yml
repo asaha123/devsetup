@@ -132,6 +132,9 @@
        chdir: /usr/local
     when: go_version|failed or go_version.stdout != go_version_target_linux or go_version.stdout != go_version_target_osx
     become: true
+ 
+  - name: Go get yawsi
+    command: go get github.com/amitsaha/yawsi
 
   - name: Set terraform binary download filename for OS X
     set_fact:
