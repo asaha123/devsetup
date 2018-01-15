@@ -1,6 +1,7 @@
 ---
 - hosts: all
   vars:
+    ag_package_name: false
     docker_package_name: false
     go_binary: false
     go_tarball: "go-bin.tar.gz"
@@ -9,6 +10,16 @@
     terraform_version: "0.11.1"
     terraform_download_url: "https://releases.hashicorp.com/terraform"
   tasks:
+  - name: Set ag package name on Ubuntu
+    set_fact:
+      ag_package_name: "silversearcher-ag"
+    when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int >= 16
+
+  - name: Set ag package name on Fedora
+    set_fact:
+      ag_package_name: "the_silver_searcher"
+    when: ansible_distribution == 'Fedora'
+
   - name: Install tools on Linux
     package: name={{item}} state=latest
     with_items:
@@ -19,6 +30,7 @@
       - gcc
       - git
       - fzf
+      - "{{ ag_package_name }}"
     become: true
     when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
 
