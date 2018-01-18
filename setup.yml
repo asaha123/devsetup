@@ -29,7 +29,6 @@
       - tmux
       - gcc
       - git
-      - fzf
       - jq
       - "{{ ag_package_name }}"
     become: true
@@ -148,6 +147,9 @@
  
   - name: Go get yawsi
     command: go get github.com/amitsaha/yawsi
+  
+  - name: Go get dep
+    command: go get github.com/golang/dep
 
   - name: Set terraform binary download filename for OS X
     set_fact:
