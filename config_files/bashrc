@@ -116,6 +116,11 @@ aws-show-instance-protection() {
   yawsi --aws-profile="$1" --asg $asg
 }
 
+aws-show-autoscaling-activity() {
+   asg=$(yawsi --aws-profile="$1" --list-asgs | fzf --exit-0 | awk '{print $1}')
+   AWS_PROFILE=$1 aws autoscaling describe-scaling-activities --auto-scaling-group-name $asg --max-items=2
+}
+
 # fbr - checkout git branch
 fbr() {
   local branches branch
