@@ -11,7 +11,7 @@ if [[ ! -z $YUM_CMD ]]; then
    sudo dnf -y install $PACKAGE_NAME
 elif [[ ! -z $APT_GET_CMD ]]; then
    sudo apt-get -y install $PACKAGE_NAME
-elif [[ ! -z $OTHER_CMD ]]; then
+elif [[ ! -z $BREW_CMD ]]; then
    brew install $PACKAGE_NAME
 else
    echo "error can't install package $PACKAGE"
