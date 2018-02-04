@@ -152,3 +152,22 @@ let g:go_snippet_engine = "neosnippet"
 " search and center to the screen
 nnoremap n nzz
 nnoremap N Nzz
+
+
+" Folding
+set foldmethod=syntax
+set foldlevelstart=1
+let sh_fold_enabled=1 " sh - enable function folding
+let ruby_fold=1 " Ruby
+let php_folding=1 " PHP
+let javaScript_fold=1 " JavaScript
+let python_fold=1 "Python
+let go_fold=1 "golang
+
+" speed up syntax highlighting
+set nocursorcolumn
+set nocursorline
+
+syntax sync minlines=256
+set synmaxcol=300
+set re=1
