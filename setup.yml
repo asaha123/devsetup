@@ -146,7 +146,7 @@
     become: true
  
   - name: Go get yawsi
-    command: go get github.com/amitsaha/yawsi
+    command: go get -u github.com/amitsaha/yawsi
   
   - name: Go get dep
     command: go get github.com/golang/dep
