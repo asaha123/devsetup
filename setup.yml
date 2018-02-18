@@ -146,10 +146,10 @@
     become: true
  
   - name: Go get yawsi
-    command: go get -u github.com/amitsaha/yawsi
+    command: /usr/local/go/bin/go get -u github.com/amitsaha/yawsi
   
   - name: Go get dep
-    command: go get github.com/golang/dep
+    command: /usr/local/go/bin/go get github.com/golang/dep
 
   - name: Set terraform binary download filename for OS X
     set_fact:
