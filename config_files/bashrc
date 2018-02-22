@@ -46,7 +46,7 @@ export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin:$HOME/.bin/:$HOME/.local/bin
 
 # Custom aliases
 alias arc='docker run -v `pwd`:/code -ti amitsaha/arc'
-alias fli='~/.virtualenvs/fli/bin/fli'
+alias fli='~/.virtualenvs/fli-develop/bin/fli'
 alias osxlock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 alias vim='nvim'
 . ~/.bashrc_aliases
@@ -83,6 +83,17 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
+
+aws-list() {
+  AWS_PROFILE=$1 yawsi ec2 list-instances --tags="role:$2"
+}
+
+aws-execute-cmd() {
+  AWS_PROFILE=$1 yawsi ec2 list-instances --tags="role:$2" | awk '{print $7}' | xargs -I {} ssh {} $3
+}
+
+
+
 # AWS SSH searchable by tags
 # AWS SSH searchable by tags
 aws-ssh() {
@@ -113,13 +124,20 @@ aws-unset-instance-protection() {
 
 aws-show-instance-protection() {
   asg=$(AWS_PROFILE=$1 yawsi ec2 list-asgs | fzf --exit-0 | awk '{print $1}')
-  AWS_PROFILE=$1 yawsi ec2 --asg $asg
+  AWS_PROFILE=$1 yawsi ec2 list-instances --asg $asg
 }
 
 aws-show-autoscaling-activity() {
    asg=$(AWS_PROFILE=$1 yawsi ec2 list-asgs | fzf --exit-0 | awk '{print $1}')
    AWS_PROFILE=$1 aws autoscaling describe-scaling-activities --auto-scaling-group-name $asg --max-items=2
 }
+
+aws-describe-autoscaling-group() {
+   asg=$(AWS_PROFILE=$1 yawsi ec2 list-asgs | fzf --exit-0 | awk '{print $1}')
+   AWS_PROFILE=$1 aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name $asg
+}
+
+
 
 # fbr - checkout git branch
 fbr() {
