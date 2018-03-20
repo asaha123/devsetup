@@ -9,6 +9,8 @@
     go_version_target_osx: "go version go1.8.1 darwin/amd64"
     terraform_version: "0.11.3"
     terraform_download_url: "https://releases.hashicorp.com/terraform"
+    yawsi_version: "0.2"
+    yawsi_download_url: "https://github.com/amitsaha/yawsi/releases/download"
   tasks:
   - name: Set ag package name on Ubuntu
     set_fact:
@@ -145,11 +147,38 @@
     when: go_version|failed or go_version.stdout != go_version_target_linux or go_version.stdout != go_version_target_osx
     become: true
  
-  - name: Go get yawsi
-    command: /usr/local/go/bin/go get -u github.com/amitsaha/yawsi
+  - name: Create $HOME/.bin directory
+    file:
+      path: '~/.bin'
+      state: directory
+      mode: 0755
+
+  - name: Set yawsi binary download filename for OS X
+    set_fact:
+        yawsi_binary: "yawsi-{{yawsi_version}}-darwin-amd64" 
+    when: ansible_os_family == 'Darwin'
+
+  - name: Set yawsi binary download filename for Linux 
+    set_fact:
+        yawsi_binary: "yawsi-{{yawsi_version}}-linux-amd64" 
+    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
   
+  - name: Download yawsi binary tarball into ~/.bin
+    unarchive:
+      src: "{{yawsi_download_url}}/v{{yawsi_version}}/{{yawsi_binary}}.zip"
+      dest: ~/.bin/
+      remote_src: true
+
+  - name: Remove ~/.bin/yawsi if exists
+    file:
+      path: '~/.bin/yawsi'
+      state: absent
+
+  - name: Rename yawsi binary to yawsi
+    command: mv ~/.bin/{{yawsi_binary}} ~/.bin/yawsi
+
   - name: Go get dep
-    command: /usr/local/go/bin/go get github.com/golang/dep
+    command: /usr/local/go/bin/go get -u github.com/golang/dep/cmd/dep
 
   - name: Set terraform binary download filename for OS X
     set_fact:
@@ -160,12 +189,6 @@
     set_fact:
         terraform_binary: "terraform_{{terraform_version}}_linux_amd64.zip" 
     when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
-
-  - name: Create $HOME/.bin directory
-    file:
-      path: '~/.bin'
-      state: directory
-      mode: 0755
 
   - name: Remove ~/.bin/terraform if exists
     file:
