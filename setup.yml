@@ -32,6 +32,7 @@
       - gcc
       - git
       - jq
+      - unzip
       - "{{ ag_package_name }}"
     become: true
     when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
