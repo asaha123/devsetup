@@ -208,6 +208,11 @@
     set_fact:
         consul_binary: "consul_{{consul_version}}_linux_amd64.zip" 
     when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
+  
+  - name: Set consul binary download filename for OS X
+    set_fact:
+        consul_binary: "consul_{{consul_version}}_darwin_amd64.zip" 
+    when: ansible_os_family == 'Darwin'
 
   - name: Remove ~/.bin/consul if exists
     file:
