@@ -106,13 +106,13 @@
     when: ansible_system == 'Linux'
     become: true
 
-  - name: Enable and Start docker service
-    service:
-      name: docker
-      enabled: yes
-      state: started
-    when: ansible_system == 'Linux'
-    become: true
+  #- name: Enable and Start docker service
+  #  service:
+  #    name: docker
+  #    enabled: yes
+  #    state: started
+  #  when: ansible_system == 'Linux'
+  #  become: true
 
   - name: Set golang binary download filename for Linux 
     set_fact:
