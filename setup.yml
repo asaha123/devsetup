@@ -9,7 +9,7 @@
     go_version_target_osx: "go version go1.8.1 darwin/amd64"
     consul_version: "1.1.0"
     consul_download_url: "https://releases.hashicorp.com/consul"
-    terraform_version: "0.11.5"
+    terraform_version: "0.11.7"
     terraform_download_url: "https://releases.hashicorp.com/terraform"
     yawsi_version: "0.2"
     yawsi_download_url: "https://github.com/amitsaha/yawsi/releases/download"
