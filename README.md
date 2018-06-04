@@ -1,13 +1,10 @@
 # Ansible powered local Development Environment Setup
 
-
-Install ansible
-
 ```
-$ sudo pip install ansible
+$ ./setup.sh
 ```
 
-Run it:
+
 
 On Linux
 
