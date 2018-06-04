@@ -7,6 +7,8 @@
     go_tarball: "go-bin.tar.gz"
     go_version_target_linux: "go version go1.8.1 linux/amd64"
     go_version_target_osx: "go version go1.8.1 darwin/amd64"
+    consul_version: "1.1.0"
+    consul_download_url: "https://releases.hashicorp.com/consul"
     terraform_version: "0.11.5"
     terraform_download_url: "https://releases.hashicorp.com/terraform"
     yawsi_version: "0.2"
@@ -199,6 +201,22 @@
   - name: Download terraform binary tarball into ~/.bin
     unarchive:
       src: "{{terraform_download_url}}/{{terraform_version}}/{{terraform_binary}}"
+      dest: ~/.bin/
+      remote_src: true
+      
+  - name: Set consul binary download filename for Linux
+    set_fact:
+        consul_binary: "consul_{{consul_version}}_linux_amd64.zip" 
+    when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
+
+  - name: Remove ~/.bin/consul if exists
+    file:
+      path: '~/.bin/consul'
+      state: absent
+
+  - name: Download consul binary tarball into ~/.bin
+    unarchive:
+      src: "{{consul_download_url}}/{{consul_version}}/{{consul_binary}}"
       dest: ~/.bin/
       remote_src: true
 
