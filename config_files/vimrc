@@ -172,3 +172,11 @@ function! s:build_go_files()
   endif
 endfunction
 
+"https://github.com/neoclide/coc.nvim
+set updatetime=300
+augroup typescript
+  autocmd FileType typescript nmap <silent> gd <Plug>(coc-definition)
+  autocmd FileType typescript nmap <silent> gy <Plug>(coc-type-definition)
+  autocmd FileType typescript nmap <silent> gi <Plug>(coc-implementation)
+  autocmd FileType typescript nmap <silent> gr <Plug>(coc-references)
+augroup end
