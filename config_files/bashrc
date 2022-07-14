@@ -34,6 +34,8 @@ xss-lock -- /usr/bin/i3lock --nofork &
 
 # 34:2e:b7:47:57:8e
 
+export EDITOR=vim
+
 # fzf
 # https://unix.stackexchange.com/a/403917
 
