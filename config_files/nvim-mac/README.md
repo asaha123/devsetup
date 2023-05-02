@@ -1,0 +1,6 @@
+- Copy the files here into .config
+- git clone packer as per the docs
+- git clone vim go as per the docs
+- install go
+- install nodejs
+- done.
